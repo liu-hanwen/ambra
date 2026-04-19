@@ -4,6 +4,12 @@
 
 The root agent coordinates the DIKW pipeline. It keeps cross-layer invariants intact, enforces execution order, and ensures that downstream admission always goes through the pipeline gate instead of ad-hoc scans.
 
+## Loading Strategy
+
+1. Read this file first whenever work crosses layer boundaries, changes root-owned state, or needs vault-wide judgment.
+2. Descend only into the subtree you are about to touch next.
+3. Let the nearest child `AGENTS.md` add local rules for that subtree, but keep the root invariants in force unless a narrower child rule explicitly specializes them.
+
 ---
 
 ## Execution Order
@@ -192,3 +198,16 @@ Do not parallelize writes that touch the same file or the same gate rows without
 - If a layer fails, record it in that layer's `memory.md` and stop downstream progression.
 - Before a root-level run, check unresolved issues in per-layer `memory.md` files.
 - When a member fails, set `member_status='blocked'`, write `last_error`, and let aggregation block downstream consumption.
+
+---
+
+## Root Checklist
+
+- [ ] this file was read before making cross-layer decisions
+- [ ] only the relevant child `AGENTS.md` files were loaded for the active path
+- [ ] execution order stayed `material -> brief -> knowledge -> wisdom`, with `idea` only after knowledge is ready
+- [ ] all downstream admission went through `pipeline_units` and `pipeline_consumptions`
+- [ ] `user.md` was applied with the correct precedence when relevant
+- [ ] language, tag, backlink, and soft-delete invariants remained intact
+- [ ] root-owned artifacts such as `changelog/` and `pipeline_*` rows were reconciled before completion
+- [ ] layer-owned content creation stayed inside the owning layer

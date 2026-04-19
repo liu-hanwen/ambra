@@ -6,6 +6,12 @@
 
 It exists for adjacent topics that the user has not explicitly subscribed to yet, but that Ambra can justify from the user's profile plus the current knowledge and wisdom landscape.
 
+## Loading Rule
+
+- Read this file only after `idea/AGENTS.md` has already been loaded.
+- Use it only when system-managed adjacent recommendations are actually under consideration.
+- Treat it as a local overlay for the reserved recommendation space, not as a replacement for the generic idea-layer contract.
+
 ## Signals
 
 Use signals such as:
@@ -28,3 +34,12 @@ Use signals such as:
 - Do not duplicate an existing user-created research direction.
 - Use current wisdom distribution as a hint about user taste, not as absolute proof.
 - Prefer a few high-signal topics over many weak candidates.
+
+## Checklist
+
+- [ ] `idea/AGENTS.md` was used as the baseline before applying this local overlay
+- [ ] the topic is adjacent and evidence-backed rather than merely interesting
+- [ ] the recommendation does not duplicate an existing user-created direction
+- [ ] topic and note names follow `vault-language.txt`
+- [ ] each note links back to the motivating knowledge or wisdom
+- [ ] the recommendation space stayed within its per-run caps

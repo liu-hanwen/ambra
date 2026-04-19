@@ -4,6 +4,11 @@
 
 The root agent writes concise update briefs under `changelog/` after a completed full downstream Ambra pass.
 
+## Loading Rule
+
+- Read this file only after the root agent has determined that a full downstream run, dream pass, or downstream-complete ingestion workflow has finished.
+- Treat this folder as a root-owned reporting surface, not as a new downstream knowledge layer.
+
 ## Output rule
 
 - Create one Markdown note per completed full downstream run, dream pass, or downstream-complete ingestion workflow.
@@ -37,3 +42,13 @@ The root agent writes concise update briefs under `changelog/` after a completed
 - Mention which wisdom notes changed and what new synthesis or insight they gained.
 - Mention new recommended idea topics when `idea/recommend/` changed.
 - If a run produced no durable note changes, say that explicitly instead of faking novelty.
+
+## Checklist
+
+- [ ] the workflow actually completed downstream processing or a dream pass
+- [ ] backlink synchronization already finished before drafting the brief
+- [ ] filename, title, headings, and prose follow `vault-language.txt`
+- [ ] concrete changed notes are linked with wikilinks
+- [ ] changed wisdom and idea outputs received extra attention
+- [ ] the key new insight is stated plainly
+- [ ] a no-durable-change run is reported honestly instead of padded

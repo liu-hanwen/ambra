@@ -1,6 +1,6 @@
 ---
 name: ambra
-description: Operate, bootstrap, localize, personalize, or extend an Ambra vault. Use this skill whenever the user wants to initialize a new Ambra vault, configure or refine `user.md`, localize an existing vault, add a material source, search and ingest content, manually import files, run the full DIKW pipeline, or run a global reorganization pass over existing knowledge, wisdom, and idea outputs. Also use it when the user asks to wire a new upstream source into Ambra, pull recent historical content after source registration, ensure newly ingested material continues automatically through brief, knowledge, wisdom, and idea, or generate a linked changelog brief of what changed.
+description: Operate an Ambra vault end to end. Use this skill whenever the user wants to initialize, localize, personalize, extend, ingest into, run, or reorganize an Ambra vault, or when they ask to add or search a source, pull recent historical content after source registration, continue newly ingested material through brief/knowledge/wisdom/idea, or write a linked changelog brief of what changed.
 ---
 
 # Ambra
@@ -15,6 +15,12 @@ material -> brief -> knowledge -> wisdom
 ```
 
 This skill is an operating contract, not a passive reference. When the user asks for action, execute the workflow and use the relevant reference file(s) below to stay aligned with Ambra's rules.
+
+## Operating stance
+
+- Keep workflow selection, root orchestration, pipeline-gate reconciliation, and final completion judgment in the main agent.
+- If the host agent supports sub-agents, use them for independent, boundary-clear work such as layer-bounded batches, plugin audits, or file-disjoint cleanup.
+- Do not preload the whole repository. Read only the workflow references and `AGENTS.md` files needed for the current path.
 
 ## Command entrypoints
 
@@ -38,10 +44,12 @@ Keep context lean:
 1. Read `references/preflight.md` first for initialization, source work, ingestion, database work, or full-pipeline runs.
 2. Identify the workflow.
 3. Read only the workflow reference(s) that match the task.
-4. Read `user.md` too when the workflow shapes source filters, ranking, downstream outputs, or idea generation and the file exists.
-5. If the workflow will continue into brief, knowledge, wisdom, or idea, also read `AGENTS.md` plus the relevant layer `AGENTS.md` files before performing that downstream work.
-6. If the workflow completes downstream processing or a dream pass, also read `references/update-changelog.md` before concluding.
-7. If the request spans multiple workflows, execute them in dependency order.
+4. Read `AGENTS.md` before crossing layer boundaries or changing root-owned state.
+5. Descend only into the subtree you are about to touch: read the relevant layer, source-plugin, or research-direction `AGENTS.md`, not unrelated ones.
+6. Read `user.md` too when the workflow shapes durable source filters, ranking, downstream outputs, or idea generation and the file exists.
+7. If the workflow will continue into brief, knowledge, wisdom, or idea, read only the downstream layer contracts that are actually about to run.
+8. If the workflow completes downstream processing or a dream pass, also read `references/update-changelog.md` before concluding.
+9. If the request spans multiple workflows, execute them in dependency order instead of improvising a merged shortcut.
 
 ## Universal rules
 
@@ -79,12 +87,13 @@ A workflow is complete only when:
 
 1. its checklist in the relevant reference file is satisfied
 2. downstream processing has been run if new material was ingested
-3. sub-agent delegation, if used, stayed within clear boundaries and did not hide root-owned decisions
-4. language and tag outputs remain consistent with `vault-language.txt`
-5. `user.md`, if relevant to the workflow, was created, updated, or intentionally left unchanged with that choice reflected in the work
-6. `changelog/` was updated when the workflow completed downstream processing or a dream pass
-7. durable results were committed only when git maintenance was enabled or the user explicitly asked for a commit
-8. the final report tells the user what changed and names the git commit if one was created
+3. only the relevant root/layer/plugin `AGENTS.md` files were loaded for the path that actually ran
+4. sub-agent delegation, if used, stayed within clear boundaries and did not hide root-owned decisions
+5. language and tag outputs remain consistent with `vault-language.txt`
+6. `user.md`, if relevant to the workflow, was created, updated, or intentionally left unchanged with that choice reflected in the work
+7. `changelog/` was updated when the workflow completed downstream processing or a dream pass
+8. durable results were committed only when git maintenance was enabled or the user explicitly asked for a commit
+9. the final report tells the user what changed and names the git commit if one was created
 
 ## Related files
 

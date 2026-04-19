@@ -12,6 +12,12 @@ The material agent is the entry point of the pipeline. It acquires source conten
 - **May operate on gate tables:** `pipeline_units` rows where `layer='material'` and their matching `pipeline_unit_members`
 - **Must not operate on:** `brief/`, `knowledge/`, `wisdom/`, `idea/`, or their business tables
 
+## Recursive Loading Rule
+
+- Read this file before any material-layer work.
+- Read `material/{source}/AGENTS.md` only when a source plugin exists for the source you are touching.
+- A source-plugin `AGENTS.md` should add source-specific fetching, filtering, and bookkeeping rules; it should not restate the generic gate and ingestion rules from this file.
+
 ---
 
 ## Tool Preflight
@@ -167,6 +173,7 @@ Then mark each completed chapter `done` and aggregate the unit exactly as define
 ## Layer Checklist
 
 - [ ] required tools are available for this ingestion path
+- [ ] the generic material contract was used as the baseline before any source-plugin overlay
 - [ ] source input was fetched, converted, or normalized without losing key structure
 - [ ] `user.md` was consulted if present before source filtering, search, or source-contract tuning
 - [ ] front matter includes source metadata such as `source_url`, `fetched_at`, and `format`

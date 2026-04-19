@@ -19,6 +19,12 @@ The brief layer is **not** a forced compression layer. Its job is to restore the
 - **May update in upstream Markdown only:** the `brief` front matter backlink in referenced `material/...` files when refreshing required backlinks
 - **Must not operate on:** `knowledge/`, `wisdom/`, `idea/`, or the `materials` table
 
+## Recursive Loading Rule
+
+- Read this file before any brief-layer work.
+- Read a deeper file such as `brief/{source}/AGENTS.md` only when the source-specific subtree adds genuine local rules.
+- A child brief `AGENTS.md` should tighten source-specific expectations, not replace the generic fidelity, gate, or language rules from this file.
+
 ---
 
 ## Inputs
@@ -224,6 +230,7 @@ Every brief should satisfy these standards:
 ## Layer Checklist
 
 - [ ] only ready material publish units newer than the recorded brief consumption were processed
+- [ ] the generic brief contract was used as the baseline before any source-specific overlay
 - [ ] `vault-language.txt` was read before generation
 - [ ] `user.md` was consulted if present
 - [ ] the brief note filename follows the vault language

@@ -14,6 +14,12 @@ This plugin inherits the shared ingestion rules from `material/AGENTS.md` and ad
 - **May operate on gate tables:** material-layer `pipeline_units` and `pipeline_unit_members` created by this source plugin
 - **Must not operate on:** other source plugins or downstream layers such as `brief/` and `knowledge/`
 
+## Read Order
+
+- Read `material/AGENTS.md` first.
+- Use this file only as the arXiv-specific delta for fetching, filtering, and bookkeeping.
+- Keep the generic material-layer registration and gate rules from the parent contract intact.
+
 ---
 
 ## Source Profile
@@ -43,6 +49,7 @@ This plugin inherits the shared ingestion rules from `material/AGENTS.md` and ad
 - Skip withdrawn papers.
 - If a PDF is larger than 50 MB, record a warning in `memory.md` and skip it.
 - For keyword search, fetch only the top N most relevant results. Default to 10 if the request does not specify N.
+- If `user.md` defines durable topic filters, exclusions, or result-count preferences for this source, apply them before falling back to the defaults above.
 
 ---
 
@@ -136,3 +143,12 @@ Use the shared Python helper for front matter writes instead of shell-level YAML
 - **PDF conversion failure:** record the error in `memory.md`, do not register the paper, and leave no ready unit behind.
 - **Network timeout:** retry up to three times with a five-second backoff, then record and skip.
 - **Paper already exists:** rely on `INSERT OR IGNORE`; treat the operation as idempotent.
+
+## Checklist
+
+- [ ] `material/AGENTS.md` was read first
+- [ ] arXiv-specific filters were applied without breaking the generic material contract
+- [ ] `user.md` was consulted when it defines durable arXiv filtering preferences
+- [ ] only new, non-withdrawn papers within the chosen fetch scope were processed
+- [ ] every successful paper write was registered in `materials` and the material-layer gate
+- [ ] `memory.md` was updated with processed IDs, timestamps, and any skipped-paper warnings

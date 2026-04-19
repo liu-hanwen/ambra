@@ -13,6 +13,12 @@ This plugin is the arXiv-specific brief agent. It follows all generic rules from
 - **May update in upstream Markdown only:** the `brief` front matter backlink in referenced `material/arxiv/...` files when refreshing required backlinks
 - **Must not operate on:** other source plugins or downstream layers
 
+## Read Order
+
+- Read `brief/AGENTS.md` first.
+- Use this file only when the active source is arXiv.
+- Treat it as a paper-specific output-shape overlay on top of the generic brief-layer fidelity, language, and gate rules.
+
 ---
 
 ## Processing Flow
@@ -66,6 +72,15 @@ tags: []
 - Treat a paper as one coherent brief unless the source file literally bundles multiple independent papers or appendices as separate stand-alone pieces.
 - If the paper is already concise and information-dense, keep nearly all important content and mainly improve structure, grouping, and readability.
 - If the paper is verbose or repetitive, deduplicate repeated explanations but preserve the method, assumptions, evidence, limitations, and conclusions.
+
+## Checklist
+
+- [ ] `brief/AGENTS.md` was used as the baseline contract
+- [ ] the source was confirmed to be an arXiv paper before applying this overlay
+- [ ] the brief keeps the paper's contribution, method, evidence, limitations, and conclusions intact
+- [ ] important experimental numbers and datasets were preserved when present
+- [ ] formulas and architecture/workflow structure were rendered in a readable form when useful
+- [ ] the resulting file was registered and linked exactly as required by the generic brief layer
 
 ---
 

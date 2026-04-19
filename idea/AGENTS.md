@@ -13,6 +13,13 @@ The idea agent consumes `ready` knowledge publish units and generates actionable
 - **Read-only:** the `knowledges` table, files under `knowledge/`, files under `wisdom/` when inferring user taste from current synthesis patterns, research-direction `AGENTS.md` files, and knowledge-layer publish units
 - **Must not operate on:** `material/`, `brief/`, `wisdom/`, or any business table other than writing `layer_state` and `pipeline_consumptions`
 
+## Recursive Loading Rule
+
+- Read this file before any idea-layer work.
+- Read `idea/{direction}/AGENTS.md` only for the active user-defined direction you are evaluating.
+- Read `idea/recommend/AGENTS.md` only when system-managed adjacent recommendations are actually in scope.
+- Child idea contracts may narrow local relevance or output preferences, but they do not override the generic gate, language, cap, or anti-duplication rules from this file.
+
 ---
 
 ## Inputs
@@ -171,6 +178,7 @@ Then write that note using the format below.
 ## Layer Checklist
 
 - [ ] only ready knowledge publish units newer than the recorded idea consumption were processed
+- [ ] the generic idea contract was the baseline before applying any direction-local overlay
 - [ ] `vault-language.txt` was read before generation
 - [ ] `user.md` was consulted if present
 - [ ] the idea directory name and note filename follow the vault language

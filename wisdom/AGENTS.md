@@ -14,6 +14,12 @@ The wisdom agent consumes `ready` knowledge publish units, clusters related know
 - **May update:** existing wisdom files and the `knowledge.wisdoms` field in referenced `knowledge/...` files
 - **Must not operate on:** `material/`, `brief/`, `idea/`, `materials`, `briefs`, or `knowledges`
 
+## Recursive Loading Rule
+
+- Read this file before any wisdom-layer work.
+- Load deeper subtree contracts only when a narrower local space adds real constraints for the output you are about to touch.
+- Keep the generic synthesis, clustering, and backlink rules from this file as the default.
+
 ---
 
 ## Inputs
@@ -187,6 +193,7 @@ tags:
 ## Layer Checklist
 
 - [ ] only ready knowledge publish units newer than the recorded wisdom consumption were processed
+- [ ] the generic wisdom contract remained the baseline for clustering and synthesis
 - [ ] `vault-language.txt` was read before generation
 - [ ] `user.md` was consulted if present
 - [ ] the wisdom filename follows the vault language

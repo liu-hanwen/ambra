@@ -16,6 +16,12 @@ The knowledge agent consumes `ready` brief publish units, extracts atomic and re
 - **May update:** `tags.md`, existing knowledge files when enriching or merging them, and required backlink fields in referenced `brief/...` files
 - **Must not operate on:** `material/`, `wisdom/`, `idea/`, `materials`, or `wisdoms`
 
+## Recursive Loading Rule
+
+- Read this file before any knowledge-layer work.
+- Load deeper `AGENTS.md` files only when the active brief source or nearby subtree truly contributes local rules.
+- Keep the generic merge, traceability, and tag-normalization rules from this file as the baseline unless a nearer contract narrows them deliberately.
+
 ---
 
 ## Inputs
@@ -243,6 +249,7 @@ tags:
 ## Layer Checklist
 
 - [ ] only ready brief publish units newer than the recorded knowledge consumption were processed
+- [ ] the generic knowledge contract remained the baseline for merging, tag normalization, and traceability
 - [ ] `vault-language.txt` was read before generation
 - [ ] `user.md` was consulted if present
 - [ ] the knowledge filename follows the vault language
