@@ -54,7 +54,8 @@ Keep context lean:
 - If any workflow ingests new material, continue into downstream processing before concluding.
 - After any workflow that completes downstream processing or `ambra:dream`, update `changelog/` with a linked summary of what changed.
 - Git maintenance is opt-in. Default to disabled unless the user or `user.md` explicitly enables it.
-- If git maintenance is enabled, reuse the nearest parent git repository when one exists; only create a new repository when the user wants standalone git management and no parent repo is available.
+- If git maintenance is enabled, reuse the nearest parent git repository when one exists; otherwise initialize a standalone repository in the vault so Ambra-managed commits have an active repo.
+- If the user explicitly asks for a one-off commit while no git repository is active, first reuse a parent repo when one exists; otherwise initialize a standalone repository in the vault before committing.
 - If Ambra creates an automatic commit, prefix the commit subject with an `ambra` marker such as `[ambra]`.
 - Never commit `queue.db` or other generated runtime database files.
 - Downstream layers may update upstream Markdown front matter when a layer spec requires backlink maintenance, but they must not mutate upstream business tables.

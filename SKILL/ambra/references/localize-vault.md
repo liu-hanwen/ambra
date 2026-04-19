@@ -19,7 +19,7 @@ Use this when the user already has a vault and wants to change its operating lan
    - keep existing downstream paths unchanged
    - still localize displayed titles, section headings, body content, and tags
 9. Never relabel `material` paths just to satisfy localization.
-10. If git maintenance is enabled or the user explicitly asks for a commit, commit durable prompt/configuration changes with an `ambra` marker in the subject.
+10. If git maintenance is enabled or the user explicitly asks for a commit, make sure a git repository is active for the vault by reusing a parent repo or initializing a standalone repository if needed, then commit durable prompt/configuration changes with an `ambra` marker in the subject.
 
 ## Checklist
 

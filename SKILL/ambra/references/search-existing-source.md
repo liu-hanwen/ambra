@@ -18,7 +18,7 @@ Use this when the user wants content discovered through an already registered so
 12. Continue through downstream processing so the ingested material reaches brief, knowledge, wisdom, and idea.
 13. Synchronize bidirectional links if the workflow changed linked content.
 14. Update `changelog/` with a linked summary of what changed.
-15. If git maintenance is enabled or the user explicitly asks for a commit, commit durable changes with an `ambra` marker in the subject.
+15. If git maintenance is enabled or the user explicitly asks for a commit, make sure a git repository is active for the vault by reusing a parent repo or initializing a standalone repository if needed, then commit durable changes with an `ambra` marker in the subject.
 
 ## Checklist
 

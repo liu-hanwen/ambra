@@ -22,7 +22,7 @@ Use this when the user provides local files.
 11. Continue through downstream processing.
 12. Check bidirectional links if linked content changed.
 13. Update `changelog/` with a linked summary of what changed.
-14. If git maintenance is enabled or the user explicitly asks for a commit, commit durable changes with an `ambra` marker in the subject.
+14. If git maintenance is enabled or the user explicitly asks for a commit, make sure a git repository is active for the vault by reusing a parent repo or initializing a standalone repository if needed, then commit durable changes with an `ambra` marker in the subject.
 
 ## Checklist
 

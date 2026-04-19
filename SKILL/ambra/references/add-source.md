@@ -39,7 +39,7 @@ Use this when the user wants to add or extend a material source plugin.
 11. Before doing that downstream work, read `AGENTS.md`, the relevant layer contracts, and `references/update-changelog.md`.
 12. If the workflow completed downstream processing and linked content changed, synchronize bidirectional links first.
 13. If the workflow completed downstream processing, update `changelog/` with a linked summary.
-14. If git maintenance is enabled or the user explicitly asks for a commit, commit durable source/plugin changes with an `ambra` marker in the subject.
+14. If git maintenance is enabled or the user explicitly asks for a commit, make sure a git repository is active for the vault by reusing a parent repo or initializing a standalone repository if needed, then commit durable source/plugin changes with an `ambra` marker in the subject.
 
 ## Checklist
 

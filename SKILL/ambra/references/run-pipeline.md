@@ -15,7 +15,7 @@ Before executing the downstream stages, read `vault-language.txt`, `AGENTS.md`, 
 7. process ready knowledge units through wisdom and idea, including the reserved recommendation space under `idea/recommend/` when the signals justify it
 8. run bidirectional-link synchronization
 9. update `changelog/` with a linked brief of what changed
-10. if git maintenance is enabled or the user explicitly asks for a commit, commit durable results with an `ambra` marker in the subject; otherwise leave the changes uncommitted and report them clearly
+10. if git maintenance is enabled or the user explicitly asks for a commit, make sure a git repository is active for the vault by reusing a parent repo or initializing a standalone repository if needed, then commit durable results with an `ambra` marker in the subject; otherwise leave the changes uncommitted and report them clearly
 
 ## Guardrails
 

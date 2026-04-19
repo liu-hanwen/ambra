@@ -46,7 +46,7 @@ Bring the vault into a more organized and more insightful state than a plain inc
 9. Use sub-agents if supported for disjoint merge clusters or independent synthesis candidates, but keep global reconciliation in the main agent.
 10. Synchronize bidirectional links.
 11. Update `changelog/` with a linked summary of the dream pass.
-12. If git maintenance is enabled or the user explicitly asks for a commit, commit durable results with an `ambra` marker in the subject.
+12. If git maintenance is enabled or the user explicitly asks for a commit, make sure a git repository is active for the vault by reusing a parent repo or initializing a standalone repository if needed, then commit durable results with an `ambra` marker in the subject.
 
 ## Guardrails
 

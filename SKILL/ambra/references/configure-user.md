@@ -26,7 +26,7 @@ Turn vague user preferences into a durable vault profile that the rest of Ambra 
    - if no, treat the workflow as an audit and leave `user.md` unchanged
    - use the user's own language if that makes the profile easier for them to maintain
 6. If the refined profile implies stable source-side behavior, point future source work toward updating the relevant `material/{source}/AGENTS.md` rather than overloading `user.md` with source-specific implementation detail.
-7. Commit only when the workflow produced a durable change **and** git maintenance is enabled or the user explicitly asked for a commit.
+7. Commit only when the workflow produced a durable change **and** git maintenance is enabled or the user explicitly asked for a commit. If no git repository is active for the vault, reuse a parent repo when one exists; otherwise initialize a standalone repository first.
 
 ## Checklist
 
