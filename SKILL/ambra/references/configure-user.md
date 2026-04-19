@@ -19,13 +19,14 @@ Turn vague user preferences into a durable vault profile that the rest of Ambra 
    - core domains, recurring questions, and preferred evidence level
    - source preferences, exclusions, freshness bias, or result-count defaults
    - downstream preferences for brief, knowledge, wisdom, and idea outputs
+   - whether Ambra should manage git automatically, which defaults to disabled
    - preferred tag granularity or naming habits, as long as they still align with `tags.md`
 5. Decide whether the workflow found a real durable change:
    - if yes, rewrite `user.md` into a concise operational profile instead of a diary
    - if no, treat the workflow as an audit and leave `user.md` unchanged
    - use the user's own language if that makes the profile easier for them to maintain
 6. If the refined profile implies stable source-side behavior, point future source work toward updating the relevant `material/{source}/AGENTS.md` rather than overloading `user.md` with source-specific implementation detail.
-7. Commit only when the workflow produced a durable change.
+7. Commit only when the workflow produced a durable change **and** git maintenance is enabled or the user explicitly asked for a commit.
 
 ## Checklist
 
@@ -37,4 +38,4 @@ Turn vague user preferences into a durable vault profile that the rest of Ambra 
 - [ ] a no-change audit path was handled explicitly when no durable update was needed
 - [ ] any tag or language preferences stay aligned with `tags.md` and `vault-language.txt`
 - [ ] future source-specific behavior was routed toward source contracts when needed
-- [ ] durable changes were committed to git when any existed
+- [ ] durable changes were committed to git only when git maintenance was enabled or explicitly requested

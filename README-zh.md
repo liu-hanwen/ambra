@@ -59,12 +59,14 @@ material -> brief -> knowledge -> wisdom
 ```text
 .
 |- AGENTS.md              # 根级调度规范（全局约束 + 流水线协调）
+|- changelog/             # 每次完整下游运行后的变更简报
 |- user.md                # 用户长期偏好档案，用于数据源过滤和下游输出偏好
 |- SKILL/                 # 用于操作或扩展 Ambra 的技能入口
 |- brief/                 # 精读总结
 |  \- AGENTS.md
 |- idea/                  # 灵感 IDEA（按研究方向子目录组织）
 |  \- AGENTS.md
+|  \- recommend/          # 保留的系统推荐空间，用于维护相邻主题候选
 |- knowledge/             # 原子知识点（扁平结构）
 |  \- AGENTS.md
 |- material/              # 原始材料（Markdown 格式）
@@ -121,9 +123,18 @@ knowledge.wisdoms <-> wisdom.knowledge
 `user.md` 用来保存这个 vault 的长期用户偏好。
 
 - 可用于定义稳定的数据源关注方向、排除项、排序规则、下游强调重点和 idea 生成偏好。
+- 也可用于定义 Ambra 是否自动维护 git；默认应为关闭。
 - 当前对话里的明确指令优先级高于 `user.md`。
 - `user.md` 不能覆盖仓库级 invariant、pipeline gate 或 `tags.md` 的规范。
 - 文件路径固定为 `user.md`，但内容可以使用用户自己的语言。
+
+### 更新简报
+
+`changelog/` 会为每次完整的下游处理维护一份 Markdown 更新简报。
+
+- 每份简报都应点名哪些笔记发生了变化，尤其是哪些 `wisdom/` 和 `idea/` 得到了更新，以及新增了什么 insight。
+- 简报应使用 Obsidian 链接，方便直接跳转到对应内容。
+- 如果一次运行没有产生持久化内容变化，也应明确写出来，而不是假装有更新。
 
 ### 幂等性
 
@@ -160,11 +171,13 @@ python3 -c "import yaml; print('pyyaml ok')" || pip3 install pyyaml
 
 1. 在仓库根目录执行 `./scripts/init-db.sh`，生成本地 `queue.db`。
 2. 先创建或完善 `user.md`，给 vault 一个稳定的偏好配置。
-3. 如果你希望下游输出为英文以外的语言，先修改 `vault-language.txt`。
-4. 将原始文件（PDF、EPUB 等）放入 `material/{source}/` 目录。
-5. 运行 material 层，完成格式转换和数据库注册。
-6. 按顺序触发 `brief -> knowledge -> wisdom / idea`。
-7. 定期执行 `python3 material/skills/scripts/sync-bidirectional-links.py --dry-run --root .` 检查双向链接完整性。
+3. 决定 Ambra 是否要自动维护 git；默认应保持关闭。
+4. 如果你希望下游输出为英文以外的语言，先修改 `vault-language.txt`。
+5. 将原始文件（PDF、EPUB 等）放入 `material/{source}/` 目录。
+6. 运行 material 层，完成格式转换和数据库注册。
+7. 按顺序触发 `brief -> knowledge -> wisdom / idea`。
+8. 每次完整运行后查看 `changelog/`，了解具体更新了哪些内容。
+9. 定期执行 `python3 material/skills/scripts/sync-bidirectional-links.py --dry-run --root .` 检查双向链接完整性。
 
 > `queue.db` 为本地生成文件，仓库不直接维护该数据库。
 >

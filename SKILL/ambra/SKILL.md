@@ -1,6 +1,6 @@
 ---
 name: ambra
-description: Operate, bootstrap, localize, personalize, or extend an Ambra vault. Use this skill whenever the user wants to initialize a new Ambra vault, configure or refine `user.md`, localize an existing vault, add a material source, search and ingest content, manually import files, run the full DIKW pipeline, or run a global reorganization pass over existing knowledge, wisdom, and idea outputs. Also use it when the user asks to wire a new upstream source into Ambra, pull recent historical content after source registration, or ensure newly ingested material continues automatically through brief, knowledge, wisdom, and idea.
+description: Operate, bootstrap, localize, personalize, or extend an Ambra vault. Use this skill whenever the user wants to initialize a new Ambra vault, configure or refine `user.md`, localize an existing vault, add a material source, search and ingest content, manually import files, run the full DIKW pipeline, or run a global reorganization pass over existing knowledge, wisdom, and idea outputs. Also use it when the user asks to wire a new upstream source into Ambra, pull recent historical content after source registration, ensure newly ingested material continues automatically through brief, knowledge, wisdom, and idea, or generate a linked changelog brief of what changed.
 ---
 
 # Ambra
@@ -40,7 +40,8 @@ Keep context lean:
 3. Read only the workflow reference(s) that match the task.
 4. Read `user.md` too when the workflow shapes source filters, ranking, downstream outputs, or idea generation and the file exists.
 5. If the workflow will continue into brief, knowledge, wisdom, or idea, also read `AGENTS.md` plus the relevant layer `AGENTS.md` files before performing that downstream work.
-6. If the request spans multiple workflows, execute them in dependency order.
+6. If the workflow completes downstream processing or a dream pass, also read `references/update-changelog.md` before concluding.
+7. If the request spans multiple workflows, execute them in dependency order.
 
 ## Universal rules
 
@@ -51,7 +52,10 @@ Keep context lean:
 - If the host agent supports sub-agents, delegate boundary-clear work that benefits from parallelism or context isolation, but keep root orchestration, shared-state reconciliation, and final completion judgment in the main agent.
 - Keep bidirectional links consistent.
 - If any workflow ingests new material, continue into downstream processing before concluding.
-- Commit durable artifacts after any successful workflow unless the user explicitly says not to.
+- After any workflow that completes downstream processing or `ambra:dream`, update `changelog/` with a linked summary of what changed.
+- Git maintenance is opt-in. Default to disabled unless the user or `user.md` explicitly enables it.
+- If git maintenance is enabled, reuse the nearest parent git repository when one exists; only create a new repository when the user wants standalone git management and no parent repo is available.
+- If Ambra creates an automatic commit, prefix the commit subject with an `ambra` marker such as `[ambra]`.
 - Never commit `queue.db` or other generated runtime database files.
 - Downstream layers may update upstream Markdown front matter when a layer spec requires backlink maintenance, but they must not mutate upstream business tables.
 
@@ -77,8 +81,9 @@ A workflow is complete only when:
 3. sub-agent delegation, if used, stayed within clear boundaries and did not hide root-owned decisions
 4. language and tag outputs remain consistent with `vault-language.txt`
 5. `user.md`, if relevant to the workflow, was created, updated, or intentionally left unchanged with that choice reflected in the work
-6. durable results have been committed to git
-7. the final report tells the user what changed and names the git commit if one was created
+6. `changelog/` was updated when the workflow completed downstream processing or a dream pass
+7. durable results were committed only when git maintenance was enabled or the user explicitly asked for a commit
+8. the final report tells the user what changed and names the git commit if one was created
 
 ## Related files
 

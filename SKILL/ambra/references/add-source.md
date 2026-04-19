@@ -36,8 +36,10 @@ Use this when the user wants to add or extend a material source plugin.
     - if the user wants a broader check, pull a few recent items
     - do not backfill full history unless explicitly requested
 10. If the workflow pulls any new material, continue into downstream processing.
-11. Before doing that downstream work, read `AGENTS.md` and the relevant layer contracts.
-12. Commit durable source/plugin changes.
+11. Before doing that downstream work, read `AGENTS.md`, the relevant layer contracts, and `references/update-changelog.md`.
+12. If the workflow completed downstream processing and linked content changed, synchronize bidirectional links first.
+13. If the workflow completed downstream processing, update `changelog/` with a linked summary.
+14. If git maintenance is enabled or the user explicitly asks for a commit, commit durable source/plugin changes with an `ambra` marker in the subject.
 
 ## Checklist
 
@@ -53,4 +55,6 @@ Use this when the user wants to add or extend a material source plugin.
 - [ ] default backfill behavior uses the single most recent item unless the user requested more
 - [ ] root and downstream layer contracts were consulted before downstream processing
 - [ ] downstream processing run if new material was ingested
-- [ ] durable source/plugin changes committed to git
+- [ ] bidirectional links were synchronized before changelog generation when linked content changed
+- [ ] `changelog/` was updated when new material completed downstream processing
+- [ ] durable source/plugin changes were committed only when git maintenance was enabled or explicitly requested

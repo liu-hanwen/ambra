@@ -39,12 +39,14 @@ Bring the vault into a more organized and more insightful state than a plain inc
    - confirm `tag-dataview.md` still presents a legible tag landscape
 7. Use `user.md` to prioritize which mergers, synthesis rewrites, and new cross-note outputs are most valuable for this vault.
 8. Generate new global outputs only when they are justified:
-   - create new wisdom when several knowledge branches form a stronger synthesis than the current vault already captures
-   - create new ideas only under an existing user-created research direction whose `idea/{direction}/AGENTS.md` makes that synthesis a strong fit
-   - if no existing research direction is a strong fit, skip idea creation instead of inventing a new direction implicitly
+    - create new wisdom when several knowledge branches form a stronger synthesis than the current vault already captures
+    - create new ideas under an existing user-created research direction whose `idea/{direction}/AGENTS.md` makes that synthesis a strong fit
+    - also allow system-generated adjacent recommendations under `idea/recommend/` when the user's profile plus the current wisdom distribution strongly suggest a nearby topic the user may care about
+    - if no existing research direction is a strong fit and there is no defensible adjacent recommendation, skip idea creation instead of inventing a new direction implicitly
 9. Use sub-agents if supported for disjoint merge clusters or independent synthesis candidates, but keep global reconciliation in the main agent.
 10. Synchronize bidirectional links.
-11. Commit durable results.
+11. Update `changelog/` with a linked summary of the dream pass.
+12. If git maintenance is enabled or the user explicitly asks for a commit, commit durable results with an `ambra` marker in the subject.
 
 ## Guardrails
 
@@ -67,6 +69,7 @@ Bring the vault into a more organized and more insightful state than a plain inc
 - [ ] database rows, publish units, and backlinks were updated coherently for consolidated notes
 - [ ] tag branches were normalized to `tags.md`
 - [ ] `tag-dataview.md` still gives a coherent cross-layer view
-- [ ] new wisdom or idea outputs were created only when the synthesis was genuinely stronger and, for ideas, only inside an existing fitting research direction
+- [ ] new wisdom or idea outputs were created only when the synthesis was genuinely stronger and, for ideas, only inside an existing fitting research direction or the reserved `idea/recommend/` space
+- [ ] `changelog/` was updated with a linked summary
 - [ ] bidirectional links were checked
-- [ ] durable changes were committed to git
+- [ ] durable changes were committed only when git maintenance was enabled or explicitly requested

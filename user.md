@@ -56,3 +56,8 @@ You may rewrite the contents in your own language if that makes the profile easi
 
 - Preferred tag granularity:
 - Naming habits worth preserving:
+
+## Git maintenance
+
+- Enable automatic git maintenance: no
+- Create a standalone git repository if no parent repo exists: when automatic git maintenance is enabled, or when initialization explicitly asks for an immediate commit

@@ -59,12 +59,14 @@ material -> brief -> knowledge -> wisdom
 ```text
 .
 |- AGENTS.md              # Root orchestration spec: global constraints and pipeline coordination
+|- changelog/             # Linked update briefs for completed full downstream runs
 |- user.md                # Durable user preference profile used for source filtering and downstream shaping
 |- SKILL/                 # Reusable skill entrypoints for operating or extending Ambra
 |- brief/                 # Brief layer
 |  \- AGENTS.md
 |- idea/                  # Idea layer, organized by research direction
 |  \- AGENTS.md
+|  \- recommend/          # Reserved system-managed recommendation space for adjacent idea topics
 |- knowledge/             # Atomic knowledge layer
 |  \- AGENTS.md
 |- material/              # Source material in Markdown form
@@ -121,9 +123,18 @@ Use `material/skills/scripts/sync-bidirectional-links.py` to scan for missing re
 `user.md` stores durable vault-level preferences.
 
 - Use it for stable source focus, exclusions, ranking, downstream emphasis, and idea-generation priorities.
+- Use it to decide whether Ambra should manage git automatically; this defaults to off.
 - Treat explicit current user instructions as stronger than `user.md`.
 - Do not let `user.md` override repository invariants, the pipeline gate, or the canonical tag taxonomy.
 - Keep the file path fixed as `user.md`, but let the content follow the user's own language if that is more natural.
+
+### Change Briefs
+
+`changelog/` stores one linked Markdown brief for each completed full downstream pass.
+
+- Each brief should name the notes that changed and summarize the new insight, especially for updated `wisdom/` and `idea/` outputs.
+- Changelog entries should use Obsidian links so the user can jump directly into the affected notes.
+- If a run produced no durable note changes, the brief should say so explicitly.
 
 ### Idempotency
 
@@ -160,11 +171,13 @@ Prefer `./scripts/sqlite.sh` for every database command; it enables `PRAGMA fore
 
 1. Run `./scripts/init-db.sh` at the repository root to create `queue.db`.
 2. Create or refine `user.md` so the vault has a durable preference profile before you extend sources or run the downstream layers.
-3. Set `vault-language.txt` to the intended downstream output language if you do not want the default `en`.
-4. Put raw inputs such as PDFs or EPUBs under `material/{source}/`.
-5. Run the material layer to convert files and register them in the database.
-6. Trigger `brief -> knowledge -> wisdom / idea` in order.
-7. Run `python3 material/skills/scripts/sync-bidirectional-links.py --dry-run --root .` regularly to verify link integrity.
+3. Decide whether Ambra should manage git automatically; the default is **off**.
+4. Set `vault-language.txt` to the intended downstream output language if you do not want the default `en`.
+5. Put raw inputs such as PDFs or EPUBs under `material/{source}/`.
+6. Run the material layer to convert files and register them in the database.
+7. Trigger `brief -> knowledge -> wisdom / idea` in order.
+8. Check `changelog/` after completed downstream runs to see what changed.
+9. Run `python3 material/skills/scripts/sync-bidirectional-links.py --dry-run --root .` regularly to verify link integrity.
 
 > `queue.db` is generated locally and is intentionally not tracked by Git.
 >

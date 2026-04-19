@@ -57,6 +57,7 @@ Recompute the parent unit in the same transaction whenever a member changes:
 
 - `material/` stays source-faithful.
 - `brief/`, `knowledge/`, `wisdom/`, `idea/`, and `tags.md` must follow `vault-language.txt` unless the user explicitly requests bilingual output.
+- `changelog/` stores root-level update briefs in `vault-language.txt`; entries may use Obsidian links to changed notes and are exempt from reverse backlink maintenance because they are observational summaries rather than durable business relationships.
 - Downstream note filenames should also follow `vault-language.txt`; do not keep English slugs as the default note names in a non-English vault.
 - `user.md`, when present at repository root, is the durable vault-level user preference profile. The path stays fixed as `user.md`, but its content may follow the user's own language.
 - One vault should not keep parallel bilingual tag branches for the same concept.
@@ -84,12 +85,24 @@ Use `user.md` to:
 - steer source selection, ranking, and durable source-side filters
 - decide whether a source-specific `material/{source}/AGENTS.md` needs stable scope or filtering guidance
 - bias downstream explanation style, concept selection, synthesis priorities, and idea generation
+- carry vault-level git maintenance preferences, which are opt-in and default to disabled
 
 Do not use `user.md` to:
 
 - bypass the pipeline gate or soften required database bookkeeping
 - silently ignore an explicitly requested source item or ingestion task
 - drop material facts from brief or break the canonical tag taxonomy
+
+---
+
+## Change Briefs
+
+`changelog/` stores per-run update briefs for Ambra.
+
+- The root agent owns this folder.
+- Write one Markdown brief for each completed full downstream run or deep reorganization pass, even if the result is "no durable changes".
+- Each brief should summarize created, updated, merged, or retired outputs by layer, with extra attention on changed wisdom and idea outputs plus the most important new insight.
+- Use Obsidian links to the changed notes so users can jump directly into the affected content.
 
 ---
 
@@ -111,6 +124,7 @@ Do not use `user.md` to:
 The root agent may:
 
 - read every layer's `AGENTS.md`
+- read and write `changelog/`
 - read and write `layer_state`
 - read and write every `pipeline_*` table
 - inspect repository structure and shared tooling

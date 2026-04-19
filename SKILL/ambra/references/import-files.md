@@ -17,11 +17,12 @@ Use this when the user provides local files.
 6. Register the resulting material artifact and publish the ready unit.
 7. Use `user.md` only for durable classification, prioritization, and downstream emphasis. Do not refuse an explicitly supplied file just because it is off-profile unless the user profile contains a hard exclusion the user still wants enforced.
 8. Before downstream processing, read `vault-language.txt` and confirm the target vault language.
-9. Read `AGENTS.md` and the relevant layer contracts before downstream processing.
+9. Read `AGENTS.md`, the relevant layer contracts, and `references/update-changelog.md` before downstream processing.
 10. If the imported material contains multiple clearly independent subcontents, ensure brief uses multipart handling instead of one blended summary.
 11. Continue through downstream processing.
 12. Check bidirectional links if linked content changed.
-13. Commit durable changes.
+13. Update `changelog/` with a linked summary of what changed.
+14. If git maintenance is enabled or the user explicitly asks for a commit, commit durable changes with an `ambra` marker in the subject.
 
 ## Checklist
 
@@ -35,5 +36,6 @@ Use this when the user provides local files.
 - [ ] root and downstream layer contracts were consulted before downstream processing
 - [ ] multipart brief handling applied when bundled independent subcontents were detected
 - [ ] downstream processing completed
+- [ ] `changelog/` updated with a linked summary
 - [ ] bidirectional links checked
-- [ ] durable changes committed to git
+- [ ] durable changes committed only when git maintenance was enabled or explicitly requested
