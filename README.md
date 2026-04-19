@@ -1,43 +1,107 @@
 # Ambra
 
 > Chinese documentation: [README-zh.md](README-zh.md)
+>
+> Turn papers, books, articles, newsletters, and local files into a living Markdown research vault.
 
-Ambra is a DIKW (Data -> Information -> Knowledge -> Wisdom) knowledge pipeline for personal research. It uses AI agents to turn raw source material into reusable briefs, atomic knowledge, synthetic wisdom, and research ideas.
+Ambra is a repository-native research product built around AI agents. It helps you ingest raw material, rewrite it into readable briefs, extract reusable knowledge, synthesize higher-level wisdom, and surface next-step ideas — while keeping the whole process transparent in your own files.
+
+This is not a black-box chatbot that forgets what it read. Ambra is designed for people who want their research process to compound over time inside a durable, inspectable vault.
+
+---
+
+## What Ambra gives you
+
+- **Readable input, not just storage** — raw material becomes structured briefs instead of a pile of PDFs and highlights.
+- **Reusable knowledge, not disposable summaries** — important concepts are extracted into atomic notes that can be merged and reused.
+- **Higher-level synthesis** — Ambra can turn repeated patterns into wisdom notes, decision frameworks, and playbooks.
+- **Next research directions** — Ambra can generate idea notes for your chosen directions and suggest adjacent topics worth exploring.
+- **A visible change trail** — every downstream-complete run updates `changelog/` so you can see what changed and what new insight appeared.
+- **Your language, your preferences** — `vault-language.txt` and `user.md` let the vault adapt to how you think and work.
+
+---
+
+## Who Ambra is for
+
+Ambra is a strong fit if you:
+
+- read a lot and do not want your notes to stay trapped in source documents
+- want AI help, but still want transparent Markdown files you can inspect and keep
+- care about building a long-term research vault rather than getting one-off summaries
+- work in Obsidian-style knowledge environments and want agent workflows that stay repository-native
 
 ---
 
 ## Usage
 
-**Use `SKILL/ambra/SKILL.md` as the main way to operate Ambra.** The skill exposes these canonical workflow labels:
+**Use `SKILL/ambra/SKILL.md` as the main operating surface.** It exposes these canonical workflow labels:
 
-| Workflow | What to ask for |
+| Workflow | Ask the agent to do this |
 |---|---|
-| `ambra:init` | create and bootstrap a fresh vault |
+| `ambra:init` | create and bootstrap a new vault |
 | `ambra:user` | create, refine, or audit `user.md` |
-| `ambra:localize` | localize an existing vault |
+| `ambra:localize` | switch or clean up the vault's downstream language |
 | `ambra:add-source` | register or extend a material source |
 | `ambra:search` | search an existing source and ingest results |
-| `ambra:import` | import local files and ingest them |
-| `ambra:run` | run the full DIKW pipeline |
-| `ambra:dream` | reorganize and deepen the vault globally |
+| `ambra:import` | import local files such as PDFs or EPUBs |
+| `ambra:run` | bring the vault fully up to date |
+| `ambra:dream` | reorganize the vault, merge overlaps, and deepen synthesis |
 
-These are **workflow names, not shell commands**. The user can invoke them either by name or in natural language, for example:
+These are **workflow names, not shell commands**. The user can invoke them directly or in natural language, for example:
 
 ```text
 Use ambra:init to create a new Chinese vault in ~/vaults/investing.
-Use ambra:user to help me refine my profile for quant research and bilingual reading.
+Use ambra:user to help me shape this vault around quant research.
 Use ambra:add-source to add a weekly magazine source and pull one recent item as a smoke test.
-Use ambra:search to find three recent items about time-series momentum and ingest them.
 Use ambra:import to ingest these local EPUB files into Ambra.
-Use ambra:run to bring the vault fully up to date.
-Use ambra:dream to consolidate overlapping knowledge and produce stronger wisdom.
+Use ambra:run to update the whole vault and tell me what changed.
+Use ambra:dream to merge overlapping knowledge and produce stronger wisdom.
 ```
 
-If the workflow touches source filtering, downstream shaping, or idea generation, Ambra should also consult `user.md`. If the workflow writes downstream notes, Ambra should follow `vault-language.txt`.
+If a workflow shapes source filtering, downstream emphasis, or idea generation, Ambra should consult `user.md`. If it writes downstream notes, it should follow `vault-language.txt`.
 
 ---
 
-## Architecture
+## What a full Ambra run produces
+
+| Stage | What you start with | What you get |
+|---|---|---|
+| `material` | raw PDFs, EPUBs, webpages, source feeds, local files | source-faithful Markdown under `material/` |
+| `brief` | raw material that is hard to scan | clear, user-language briefs that preserve important information |
+| `knowledge` | document-level understanding | atomic, reusable knowledge notes |
+| `wisdom` | many related knowledge notes | synthesis pieces, frameworks, and higher-level insight |
+| `idea` | newly ready knowledge + your research directions | actionable idea notes and adjacent-topic recommendations |
+| `changelog` | a completed downstream run | a linked brief showing what changed and why it matters |
+
+---
+
+## Quick Start
+
+1. Make sure the local runtime is viable: `python3`, `sqlite3`, `pandoc`, and `pyyaml` are the important pieces.
+2. Run `./scripts/init-db.sh` at the repository root to create the local `queue.db`.
+3. Decide the vault's downstream language in `vault-language.txt`.
+4. Create or refine `user.md` so Ambra knows your standing preferences.
+5. Add a source with `ambra:add-source`, or import files with `ambra:import`.
+6. Run `ambra:run` to push the vault through `brief -> knowledge -> wisdom / idea`.
+7. Open `changelog/` to see what changed, then follow the linked notes.
+
+> `queue.db` is local runtime state and is intentionally not committed.
+>
+> Git maintenance is opt-in. If you want Ambra to create commits for durable changes, enable that explicitly.
+
+---
+
+## What makes Ambra different
+
+- **Vault-first, not SaaS-first** — the durable outputs are plain files in your repository.
+- **Agentic, but inspectable** — the prompts and workflow contracts live alongside the content they govern.
+- **Not summary-only** — Ambra is built to preserve signal, accumulate knowledge, and improve synthesis over time.
+- **Language-aware** — downstream outputs, filenames, and tags can follow the user's working language.
+- **Preference-aware** — `user.md` can guide source choices, emphasis, synthesis priorities, and idea generation.
+
+---
+
+## How Ambra works
 
 ```text
 material -> brief -> knowledge -> wisdom
@@ -46,148 +110,60 @@ material -> brief -> knowledge -> wisdom
 
 | Layer | Responsibility |
 |---|---|
-| **material** | Fetch or import raw sources such as papers, ebooks, and web pages, then convert them to Markdown |
-| **brief** | Produce close-reading summaries for each material item, or split one bundled source into part briefs when it contains multiple independent pieces |
-| **knowledge** | Extract atomic, reusable knowledge units from briefs and merge overlapping insights |
-| **wisdom** | Cluster related knowledge units into higher-level essays, playbooks, or decision frameworks |
-| **idea** | Generate actionable ideas for user-defined research directions from newly ready knowledge |
+| **material** | fetch or import raw sources and convert them into clean Markdown |
+| **brief** | restore the source in clearer language and structure without losing important information |
+| **knowledge** | extract reusable concepts and merge overlaps |
+| **wisdom** | synthesize multiple knowledge notes into stronger themes |
+| **idea** | generate actionable ideas for user-defined directions and adjacent recommendations |
+
+The technical orchestration is documented in `AGENTS.md`, while `SKILL/ambra/SKILL.md` is the main operating entrypoint for agents.
 
 ---
 
-## Repository Layout
+## Core operating concepts
+
+### `user.md`
+
+`user.md` is the vault's durable preference profile. Use it for stable source focus, exclusions, ranking, downstream emphasis, and idea-generation priorities. It can also decide whether Ambra should manage git automatically.
+
+### `vault-language.txt`
+
+`vault-language.txt` defines the canonical downstream output language for `brief/`, `knowledge/`, `wisdom/`, `idea/`, and `tags.md`. `material/` remains source-faithful.
+
+### `changelog/`
+
+Every completed downstream run should leave behind a linked update brief in `changelog/`, especially calling out changed wisdom, ideas, and the key new insight.
+
+### Pipeline gate
+
+Ambra uses a publish-unit and versioned-consumption gate so downstream work only runs on complete upstream outputs and can rerun safely when inputs change.
+
+---
+
+## Repository layout
 
 ```text
 .
-|- AGENTS.md              # Root orchestration spec: global constraints and pipeline coordination
-|- changelog/             # Linked update briefs for completed full downstream runs
-|- user.md                # Durable user preference profile used for source filtering and downstream shaping
-|- SKILL/                 # Reusable skill entrypoints for operating or extending Ambra
-|- brief/                 # Brief layer
-|  \- AGENTS.md
-|- idea/                  # Idea layer, organized by research direction
-|  \- AGENTS.md
-|  \- recommend/          # Reserved system-managed recommendation space for adjacent idea topics
-|- knowledge/             # Atomic knowledge layer
-|  \- AGENTS.md
-|- material/              # Source material in Markdown form
-|  |- AGENTS.md
-|  \- skills/            # Reusable conversion and maintenance skills
-|     \- scripts/        # Shell and Python helpers referenced by the skills
-|- migrations/            # Database schema and migrations
-|- scripts/
-|  |- init-db.sh          # Idempotent local database bootstrap
-|  \- sqlite.sh           # SQLite wrapper with foreign keys enabled
-|- tags.md                # Shared hierarchical tag taxonomy
-|- tag-dataview.md        # Root Dataview dashboard that traverses tags across downstream layers
-|- vault-language.txt     # Canonical downstream output language for brief/knowledge/wisdom/idea and tags
-\- wisdom/                # Synthetic wisdom essays
-   \- AGENTS.md
+|- SKILL/ambra/            # Main operating skill
+|- material/               # Source-faithful Markdown and source plugins
+|- brief/                  # Readable reconstructions of source material
+|- knowledge/              # Atomic reusable knowledge notes
+|- wisdom/                 # Higher-level synthesis notes
+|- idea/                   # User directions + reserved recommendations
+|- changelog/              # Per-run update briefs
+|- user.md                 # Durable user preference profile
+|- vault-language.txt      # Canonical downstream output language
+|- tags.md                 # Shared tag taxonomy
+|- tag-dataview.md         # Tag-oriented cross-layer view
+|- scripts/                # Database bootstrap and helpers
+\- migrations/             # SQLite schema and migrations
 ```
 
 ---
 
-## Core Mechanics
-
-### Pipeline Gate
-
-Cross-layer progression uses a **publish unit + versioned consumption** model so downstream layers only consume upstream work after it is complete.
-
-- **Single-file objects** such as one paper use a `single` unit with one `required` member.
-- **Collections** such as ebooks use a `collection` unit whose body chapters are `required` members while appendices or prefaces can be `optional`.
-- A downstream layer can only consume a unit when every required member is done and the unit becomes `ready`.
-
-### Bidirectional Links
-
-Cross-layer relationships live in YAML front matter and must stay symmetric:
-
-```text
-material.brief    <-> brief.material
-brief.knowledge   <-> knowledge.briefs
-knowledge.wisdoms <-> wisdom.knowledge
-```
-
-Use `material/skills/scripts/sync-bidirectional-links.py` to scan for missing reverse links and fill them in automatically.
-
-### Vault Language Contract
-
-`vault-language.txt` stores the canonical downstream output language for the vault.
-
-- `material/` stays source-faithful.
-- `brief/`, `knowledge/`, `wisdom/`, and `idea/` should write note filenames, titles, section headings, body prose, and newly added tags in the language declared in `vault-language.txt`.
-- A single vault should not keep parallel Chinese and English tag branches for the same concept unless the user explicitly asks for bilingual output.
-- If the vault is not meant to run in English, update `vault-language.txt` before the first downstream run.
-- Keep tags semantic and hierarchical; do not use tags for workflow state when paths or front matter already carry that information.
-
-### User Preference Contract
-
-`user.md` stores durable vault-level preferences.
-
-- Use it for stable source focus, exclusions, ranking, downstream emphasis, and idea-generation priorities.
-- Use it to decide whether Ambra should manage git automatically; this defaults to off.
-- Treat explicit current user instructions as stronger than `user.md`.
-- Do not let `user.md` override repository invariants, the pipeline gate, or the canonical tag taxonomy.
-- Keep the file path fixed as `user.md`, but let the content follow the user's own language if that is more natural.
-
-### Change Briefs
-
-`changelog/` stores one linked Markdown brief for each completed full downstream pass.
-
-- Each brief should name the notes that changed and summarize the new insight, especially for updated `wisdom/` and `idea/` outputs.
-- Changelog entries should use Obsidian links so the user can jump directly into the affected notes.
-- If a run produced no durable note changes, the brief should say so explicitly.
-
-### Idempotency
-
-All agents must be safe to rerun:
-
-- check path uniqueness before inserting new rows
-- update existing rows when content changes
-- record downstream consumption by `ready_version`
-- avoid duplicate wikilinks in front matter
-
----
-
-## Tooling
-
-| Tool | Purpose |
-|---|---|
-| `sqlite3` | Operate on the local queue database |
-| `pandoc` >= 2.x | Convert PDF, EPUB, and HTML into Markdown |
-| `python3` + `pyyaml` | Maintain YAML front matter and bidirectional links |
-| `unzip` | Inspect EPUB internals before splitting |
-
-Recommended preflight checks:
-
-```bash
-pandoc --version
-python3 -c "import yaml; print('pyyaml ok')" || pip3 install pyyaml
-```
-
-Prefer `./scripts/sqlite.sh` for every database command; it enables `PRAGMA foreign_keys=ON` for each SQLite connection automatically.
-
----
-
-## Quick Start
-
-1. Run `./scripts/init-db.sh` at the repository root to create `queue.db`.
-2. Create or refine `user.md` so the vault has a durable preference profile before you extend sources or run the downstream layers.
-3. Decide whether Ambra should manage git automatically; the default is **off**.
-4. Set `vault-language.txt` to the intended downstream output language if you do not want the default `en`.
-5. Put raw inputs such as PDFs or EPUBs under `material/{source}/`.
-6. Run the material layer to convert files and register them in the database.
-7. Trigger `brief -> knowledge -> wisdom / idea` in order.
-8. Check `changelog/` after completed downstream runs to see what changed.
-9. Run `python3 material/skills/scripts/sync-bidirectional-links.py --dry-run --root .` regularly to verify link integrity.
-
-> `queue.db` is generated locally and is intentionally not tracked by Git.
->
-> Prefer `./scripts/sqlite.sh "SQL..."` instead of invoking `sqlite3 queue.db` directly.
-
----
-
-## Extending the Framework
+## Extending Ambra
 
 - Add a new research direction by creating a subdirectory under `idea/` with its own `AGENTS.md`.
-- Add a new source plugin by documenting it in `material/{source}/AGENTS.md`.
-- Put reusable helpers under `material/skills/scripts/` so every layer can reference the same tooling.
-- Use `SKILL/ambra/SKILL.md` as the high-level operating skill for scaffolding new vaults, configuring `user.md`, extending sources, ingesting content, and running the full pipeline.
+- Add a new source plugin under `material/{source}/AGENTS.md`.
+- Put reusable helpers under `material/skills/scripts/`.
+- Start technical contract reading from `SKILL/ambra/SKILL.md` and root `AGENTS.md`.

@@ -1,43 +1,107 @@
 # Ambra
 
 > English documentation: [README.md](README.md)
+>
+> 把论文、书、网页、周刊和本地文件，逐步沉淀成一个会持续进化的 Markdown 研究型知识库。
 
-Ambra 是一个基于 DIKW（数据 -> 信息 -> 知识 -> 智慧）模型的个人知识管理流水线系统，借助 AI Agent 自动化完成从原始材料到可落地智慧的全链路处理。
+Ambra 是一个以仓库为载体、以 AI Agent 为执行者的研究产品。它不是只会吐一次性摘要的黑盒，而是把原始材料一步步转成可阅读的 brief、可复用的 knowledge、更高层的 wisdom，以及后续值得追的 idea，并把这些结果都保存在你自己的文件里。
+
+如果你希望研究过程能长期积累、能复查、能回溯、能持续变强，Ambra 就是在做这件事。
+
+---
+
+## Ambra 能给你什么
+
+- **不是堆材料，而是把材料读出来** —— 原始 PDF、网页、电子书会先变成结构清晰的 brief。
+- **不是临时摘要，而是可复用认知资产** —— 重要概念会沉淀成可合并、可复用的 knowledge。
+- **不是信息罗列，而是更高层的综合理解** —— Ambra 会把重复出现的模式提炼成 wisdom。
+- **不是停在理解，而是继续往前推** —— 它会围绕你的研究方向生成 idea，并推荐可能值得扩展的相邻主题。
+- **每次更新都看得见** —— 每轮完整处理都会写入 `changelog/`，让你知道新增了什么、改了什么、出现了什么新 insight。
+- **语言和偏好都是你的** —— `vault-language.txt` 和 `user.md` 让整个 vault 更贴近你的工作方式。
+
+---
+
+## 适合谁
+
+如果你符合下面这些情况，Ambra 会很适合你：
+
+- 你长期读论文、书、文章、报告、周刊，不想让内容只停留在原文里
+- 你希望 AI 帮你做研究整理，但又不想把结果锁死在某个黑盒系统里
+- 你想要的是会持续增值的研究型 vault，而不是一次性的总结
+- 你本来就习惯 Markdown / Obsidian 一类的知识管理方式
 
 ---
 
 ## Usage
 
-**请将 `SKILL/ambra/SKILL.md` 作为使用 Ambra 的主入口。** 它暴露了这些标准 workflow 标签：
+**请把 `SKILL/ambra/SKILL.md` 当作使用 Ambra 的主入口。** 它暴露了这些标准 workflow：
 
-| Workflow | 适用场景 |
+| Workflow | 可以让 agent 帮你做什么 |
 |---|---|
 | `ambra:init` | 创建并初始化一个新的 vault |
 | `ambra:user` | 创建、完善或审查 `user.md` |
-| `ambra:localize` | 本地化一个已有 vault |
-| `ambra:add-source` | 注册或扩展一个 material 数据源 |
-| `ambra:search` | 通过已有数据源搜索并摄入内容 |
-| `ambra:import` | 导入本地文件并摄入 |
-| `ambra:run` | 触发一次完整的 DIKW 流程 |
-| `ambra:dream` | 从全局角度整理并深化整个 vault |
+| `ambra:localize` | 切换或整理 vault 的下游输出语言 |
+| `ambra:add-source` | 注册或扩展一个数据源 |
+| `ambra:search` | 在已有数据源里搜索并摄入内容 |
+| `ambra:import` | 导入本地 PDF、EPUB 等文件 |
+| `ambra:run` | 把整个 vault 更新到最新状态 |
+| `ambra:dream` | 从全局角度整理、合并并深化整个 vault |
 
-这些是 **workflow 名称，不是 shell 命令**。用户既可以直接点名，也可以自然语言触发，例如：
+这些是 **workflow 名称，不是 shell 命令**。你可以直接点名，也可以自然语言触发，例如：
 
 ```text
 请用 ambra:init 在 ~/vaults/investing 创建一个新的中文 vault。
-请用 ambra:user 帮我完善用户画像，重点关注量化研究和双语阅读。
-请用 ambra:add-source 添加一个周刊数据源，并默认拉取最近一篇做 smoke test。
-请用 ambra:search 搜索三篇和时间序列动量相关的近期内容并摄入 Ambra。
+请用 ambra:user 帮我把这个 vault 的长期偏好整理清楚。
+请用 ambra:add-source 添加一个周刊数据源，并默认拉最近一篇跑通流程。
 请用 ambra:import 把这些本地 EPUB 文件导入 Ambra。
-请用 ambra:run 把整个 vault 更新到最新状态。
-请用 ambra:dream 整理重复 knowledge，并产出更强的 wisdom。
+请用 ambra:run 把整个 vault 更新完，并告诉我这次新增了什么 insight。
+请用 ambra:dream 整理重复 knowledge，合并弱 wisdom，看看有没有新的方向可挖。
 ```
 
-如果 workflow 涉及数据源过滤、下游输出取舍或 idea 生成，Ambra 还应读取 `user.md`；如果 workflow 会写入下游笔记，则应遵循 `vault-language.txt`。
+如果 workflow 涉及数据源过滤、下游强调重点或 idea 生成，Ambra 应读取 `user.md`；如果会写下游笔记，则应遵循 `vault-language.txt`。
 
 ---
 
-## 系统架构
+## 一次完整 Ambra 运行会产出什么
+
+| 阶段 | 你给它什么 | 它产出什么 |
+|---|---|---|
+| `material` | PDF、EPUB、网页、订阅源、本地文件 | 保持来源忠实的 Markdown 材料 |
+| `brief` | 难快速吸收的原始材料 | 更清晰、更易读、但不丢关键信息的 brief |
+| `knowledge` | 文档级理解 | 原子化、可复用的知识点 |
+| `wisdom` | 一批相关 knowledge | 更高层的综合理解、框架、方法论 |
+| `idea` | 新就绪的 knowledge + 你的研究方向 | 可行动的 idea 与相邻主题推荐 |
+| `changelog` | 一次完整下游运行 | 一份告诉你“这次到底更新了什么”的更新简报 |
+
+---
+
+## 快速开始
+
+1. 先确保本地环境基本可用：`python3`、`sqlite3`、`pandoc`、`pyyaml` 是最关键的依赖。
+2. 在仓库根目录运行 `./scripts/init-db.sh`，生成本地 `queue.db`。
+3. 在 `vault-language.txt` 里确定你希望的下游输出语言。
+4. 创建或完善 `user.md`，告诉 Ambra 你的长期偏好。
+5. 用 `ambra:add-source` 添加数据源，或者用 `ambra:import` 导入本地文件。
+6. 运行 `ambra:run`，让内容经过 `brief -> knowledge -> wisdom / idea`。
+7. 打开 `changelog/` 看这次更新了什么，再顺着链接进入具体笔记。
+
+> `queue.db` 是本地运行时状态文件，默认不会提交到 Git。
+>
+> Git 维护默认是关闭的；如果你希望 Ambra 自动提交持久化改动，需要明确开启。
+
+---
+
+## Ambra 和一般“AI 摘要工具”有什么不同
+
+- **它是 vault-first 的** —— 最终资产是你仓库里的 Markdown 文件，不是平台里的黑盒数据。
+- **它是 agentic，但可检查的** —— prompt、workflow、约束、结果都在仓库里。
+- **它不是只做 summary** —— Ambra 的重点是保留信息、沉淀 knowledge、提升 synthesis。
+- **它会考虑语言和偏好** —— 下游语言、标签、输出风格和 idea 方向都能和你匹配。
+- **它能持续演化** —— 新材料进来后，不只是多一篇摘要，而是会推动整个 vault 往前长。
+
+---
+
+## Ambra 是怎么工作的
 
 ```text
 material -> brief -> knowledge -> wisdom
@@ -46,11 +110,33 @@ material -> brief -> knowledge -> wisdom
 
 | 层级 | 职责 |
 |---|---|
-| **material** | 从外部获取内容（论文、电子书、网页等），转换为 Markdown |
-| **brief** | 对每篇材料生成精读总结；如果一份 material 实际包含多个彼此独立的子内容，则拆成分 part 的 brief |
-| **knowledge** | 从总结中提取原子知识点，去重整合 |
-| **wisdom** | 聚类相关知识点，生成综合性认知文章 |
-| **idea** | 结合用户研究方向，发散生成可落地的 IDEA |
+| **material** | 获取或导入原始内容，并转成干净的 Markdown |
+| **brief** | 用更清晰的结构和语言把原始内容“还原出来” |
+| **knowledge** | 抽取可复用概念，并和已有内容去重整合 |
+| **wisdom** | 将多个 knowledge 综合成更高层的理解 |
+| **idea** | 面向用户研究方向生成可行动的新想法 |
+
+更偏技术的调度规则在根 `AGENTS.md`，agent 的主要操作入口在 `SKILL/ambra/SKILL.md`。
+
+---
+
+## 关键运行约定
+
+### `user.md`
+
+`user.md` 是这个 vault 的长期偏好档案，可以影响数据源过滤、优先级、下游强调重点、idea 方向，甚至是否自动维护 git。
+
+### `vault-language.txt`
+
+`vault-language.txt` 用来定义 `brief/`、`knowledge/`、`wisdom/`、`idea/` 和 `tags.md` 的规范输出语言；`material/` 保持来源忠实，不强制翻译。
+
+### `changelog/`
+
+每次完整的下游处理后，Ambra 都应写一份可跳转的更新简报，尤其要点名哪些 wisdom / idea 发生了变化，以及这次最重要的新 insight 是什么。
+
+### Pipeline Gate
+
+Ambra 用 publish unit + versioned consumption 的门禁模型，确保下游只消费已经完整就绪的上游结果，也确保内容变更后可以安全重跑。
 
 ---
 
@@ -58,136 +144,26 @@ material -> brief -> knowledge -> wisdom
 
 ```text
 .
-|- AGENTS.md              # 根级调度规范（全局约束 + 流水线协调）
-|- changelog/             # 每次完整下游运行后的变更简报
-|- user.md                # 用户长期偏好档案，用于数据源过滤和下游输出偏好
-|- SKILL/                 # 用于操作或扩展 Ambra 的技能入口
-|- brief/                 # 精读总结
-|  \- AGENTS.md
-|- idea/                  # 灵感 IDEA（按研究方向子目录组织）
-|  \- AGENTS.md
-|  \- recommend/          # 保留的系统推荐空间，用于维护相邻主题候选
-|- knowledge/             # 原子知识点（扁平结构）
-|  \- AGENTS.md
-|- material/              # 原始材料（Markdown 格式）
-|  |- AGENTS.md
-|  \- skills/            # 转换工具说明 + 可复用脚本
-|     \- scripts/        # Shell / Python 脚本
-|- migrations/            # 数据库 schema / migration
-|- scripts/
-|  |- init-db.sh          # 本地初始化 queue.db（幂等）
-|  \- sqlite.sh           # 自动开启外键约束的 SQLite 包装脚本
-|- tags.md                # 全局分层标签体系
-|- tag-dataview.md        # 从 tag 视角穿透各层的根级 Dataview 看板
-|- vault-language.txt     # brief/knowledge/wisdom/idea 与 tags 的下游输出语言配置
-\- wisdom/                # 综合性智慧文章（扁平结构）
-   \- AGENTS.md
+|- SKILL/ambra/            # 主操作技能入口
+|- material/               # 忠于来源的 Markdown 材料与数据源插件
+|- brief/                  # 更易读的内容重构
+|- knowledge/              # 原子化、可复用的知识点
+|- wisdom/                 # 更高层的综合理解
+|- idea/                   # 用户研究方向与系统推荐主题
+|- changelog/              # 每轮运行的更新简报
+|- user.md                 # 用户长期偏好档案
+|- vault-language.txt      # 下游规范输出语言
+|- tags.md                 # 全局标签体系
+|- tag-dataview.md         # 从 tag 视角看全局内容
+|- scripts/                # 初始化和共享脚本
+\- migrations/             # SQLite schema 与 migration
 ```
 
 ---
 
-## 核心机制
+## 如何扩展 Ambra
 
-### 门禁机制（Pipeline Gate）
-
-层间推进采用**发布单元（Publish Unit）+ 版本消费**模型，确保下游只在上游完整就绪后才可消费：
-
-- **单文件对象**（如一篇论文）：`single` 类型 unit，包含 1 个 `required` 成员。
-- **多成员对象**（如电子书）：`collection` 类型 unit，所有正文章节为 `required`，附录或序言可设为 `optional`。
-- 只有所有 required 成员完成后，unit 才能进入 `ready` 状态并被下游消费。
-
-### 双向链接
-
-所有层间关联通过 YAML front matter 中的双向链接维护：
-
-```text
-material.brief    <-> brief.material
-brief.knowledge   <-> knowledge.briefs
-knowledge.wisdoms <-> wisdom.knowledge
-```
-
-可使用 `material/skills/scripts/sync-bidirectional-links.py` 自动扫描并补全遗漏的反向链接。
-
-### Vault 语言约定
-
-`vault-language.txt` 用来声明这个 vault 的规范下游输出语言。
-
-- `material/` 保持对原始来源忠实，不强制翻译。
-- `brief/`、`knowledge/`、`wisdom/`、`idea/` 的文件名、标题、小节标题、正文以及新增 tag，默认都应遵循 `vault-language.txt`。
-- 同一个 vault 不应同时维护中英文两套并列 tag 分支，除非用户明确要求双语输出。
-- 如果 vault 不是英文运行模式，应在第一次跑下游之前先改好 `vault-language.txt`。
-- tag 应该保持语义化、层级化，不要拿 tag 记录工作流状态；这类信息更适合放在路径或 front matter 字段里。
-
-### 用户偏好约定
-
-`user.md` 用来保存这个 vault 的长期用户偏好。
-
-- 可用于定义稳定的数据源关注方向、排除项、排序规则、下游强调重点和 idea 生成偏好。
-- 也可用于定义 Ambra 是否自动维护 git；默认应为关闭。
-- 当前对话里的明确指令优先级高于 `user.md`。
-- `user.md` 不能覆盖仓库级 invariant、pipeline gate 或 `tags.md` 的规范。
-- 文件路径固定为 `user.md`，但内容可以使用用户自己的语言。
-
-### 更新简报
-
-`changelog/` 会为每次完整的下游处理维护一份 Markdown 更新简报。
-
-- 每份简报都应点名哪些笔记发生了变化，尤其是哪些 `wisdom/` 和 `idea/` 得到了更新，以及新增了什么 insight。
-- 简报应使用 Obsidian 链接，方便直接跳转到对应内容。
-- 如果一次运行没有产生持久化内容变化，也应明确写出来，而不是假装有更新。
-
-### 幂等性
-
-所有 Agent 操作均应支持重复运行而不产生重复数据：
-
-- 注册前检查路径唯一性
-- 内容变更时更新已有记录
-- 通过 `ready_version` 记录下游消费版本
-- front matter 中避免重复 wikilink
-
----
-
-## 技术依赖
-
-| 工具 | 用途 |
-|---|---|
-| `sqlite3` | 操作本地队列数据库 |
-| `pandoc` >= 2.x | PDF / EPUB / HTML 转 Markdown |
-| `python3` + `pyyaml` | 维护 YAML front matter 与双向链接 |
-| `unzip` | 探查 EPUB 内部结构 |
-
-推荐在运行前检查：
-
-```bash
-pandoc --version
-python3 -c "import yaml; print('pyyaml ok')" || pip3 install pyyaml
-```
-
-数据库命令建议统一通过 `./scripts/sqlite.sh` 执行；该脚本会自动对每个 SQLite 连接启用 `PRAGMA foreign_keys=ON`。
-
----
-
-## 快速开始
-
-1. 在仓库根目录执行 `./scripts/init-db.sh`，生成本地 `queue.db`。
-2. 先创建或完善 `user.md`，给 vault 一个稳定的偏好配置。
-3. 决定 Ambra 是否要自动维护 git；默认应保持关闭。
-4. 如果你希望下游输出为英文以外的语言，先修改 `vault-language.txt`。
-5. 将原始文件（PDF、EPUB 等）放入 `material/{source}/` 目录。
-6. 运行 material 层，完成格式转换和数据库注册。
-7. 按顺序触发 `brief -> knowledge -> wisdom / idea`。
-8. 每次完整运行后查看 `changelog/`，了解具体更新了哪些内容。
-9. 定期执行 `python3 material/skills/scripts/sync-bidirectional-links.py --dry-run --root .` 检查双向链接完整性。
-
-> `queue.db` 为本地生成文件，仓库不直接维护该数据库。
->
-> 数据库命令请优先使用 `./scripts/sqlite.sh "SQL..."`，不要直接使用裸 `sqlite3 queue.db`。
-
----
-
-## 扩展方式
-
-- 在 `idea/` 下新增一个带 `AGENTS.md` 的子目录，即可注册新的研究方向。
-- 在 `material/{source}/AGENTS.md` 中描述新的数据源插件。
-- 将可复用脚本放入 `material/skills/scripts/`，供所有层共享。
-- 使用 `SKILL/ambra/SKILL.md` 作为创建新 vault、配置 `user.md`、扩展数据源、导入内容和触发全流程的高层技能入口。
+- 在 `idea/` 下新建一个带 `AGENTS.md` 的子目录，就能新增研究方向。
+- 在 `material/{source}/AGENTS.md` 中定义新的数据源插件。
+- 把可复用脚本放在 `material/skills/scripts/` 下，供各层共享。
+- 如果要看技术契约，请从 `SKILL/ambra/SKILL.md` 和根 `AGENTS.md` 开始读。
