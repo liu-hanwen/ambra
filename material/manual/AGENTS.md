@@ -46,7 +46,18 @@ Users add one keyword or phrase per line under the `pending_keywords` section of
 
 ## Queue File Format
 
-`material/manual/queue.md` uses YAML front matter. Create it if it does not exist.
+`material/manual/queue.md` uses YAML front matter. Create it if it does not exist. The initial empty state looks like this:
+
+```yaml
+---
+pending_urls: []
+pending_keywords: []
+processed_urls: []
+processed_keywords: []
+---
+```
+
+After the user adds items, the populated state looks like this:
 
 ```yaml
 ---
@@ -131,24 +142,24 @@ For each keyword:
 
 ## Gate Operations
 
-For each successfully produced Markdown file at `material/manual/{slug}.md`:
+For each successfully produced Markdown file at `material/manual/{slug}.md`, replace `{slug}` with the actual slug value (a shell variable such as `$slug`). Example:
 
 ```bash
-./scripts/sqlite.sh "INSERT OR IGNORE INTO materials (path) VALUES ('material/manual/{slug}.md');"
-./scripts/sqlite.sh "UPDATE materials SET updated_at=datetime('now') WHERE path='material/manual/{slug}.md';"
+./scripts/sqlite.sh "INSERT OR IGNORE INTO materials (path) VALUES ('material/manual/${slug}.md');"
+./scripts/sqlite.sh "UPDATE materials SET updated_at=datetime('now') WHERE path='material/manual/${slug}.md';"
 
 ./scripts/sqlite.sh "
   INSERT OR IGNORE INTO pipeline_units
     (unit_id, layer, unit_type, source_kind, source_key, root_path, required_count)
-    VALUES ('material:document:manual/{slug}', 'material', 'single', 'document', 'manual/{slug}', 'material/manual/{slug}.md', 1);
+    VALUES ('material:document:manual/${slug}', 'material', 'single', 'document', 'manual/${slug}', 'material/manual/${slug}.md', 1);
 
   INSERT OR IGNORE INTO pipeline_unit_members
     (unit_id, member_path, member_role, member_type)
-    VALUES ('material:document:manual/{slug}', 'material/manual/{slug}.md', 'required', 'file');
+    VALUES ('material:document:manual/${slug}', 'material/manual/${slug}.md', 'required', 'file');
 
   UPDATE pipeline_unit_members
     SET member_status='done', member_version=member_version+1, updated_at=datetime('now')
-    WHERE unit_id='material:document:manual/{slug}' AND member_path='material/manual/{slug}.md';
+    WHERE unit_id='material:document:manual/${slug}' AND member_path='material/manual/${slug}.md';
 
   UPDATE pipeline_units SET
     done_count = 1,
@@ -157,7 +168,7 @@ For each successfully produced Markdown file at `material/manual/{slug}.md`:
     ready_version = ready_version + 1,
     ready_at = datetime('now'),
     updated_at = datetime('now')
-  WHERE unit_id='material:document:manual/{slug}';
+  WHERE unit_id='material:document:manual/${slug}';
 "
 ```
 
