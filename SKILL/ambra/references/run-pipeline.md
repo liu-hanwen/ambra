@@ -7,7 +7,7 @@ Use this when the user wants the vault brought fully up to date.
 Before executing the downstream stages, read `vault-language.txt`, `AGENTS.md`, and the relevant layer contracts. Read `user.md` too when it exists so the run keeps stable user preferences consistent across filtering, synthesis, idea generation, and git policy.
 
 1. initialize the database
-2. finish pending material ingestion work
+2. finish pending material ingestion work, including processing any unprocessed items in the `manual` source (`material/manual/queue.md` pending lists and unregistered file drops); read `material/manual/AGENTS.md` before touching that source
 3. confirm the downstream language and tag taxonomy still match `vault-language.txt`
 4. apply durable preferences from `user.md` where the current run does not specify otherwise
 5. process ready material units through brief, using multipart briefs whenever one material item contains multiple clearly independent subcontents
