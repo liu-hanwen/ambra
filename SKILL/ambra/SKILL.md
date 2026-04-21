@@ -32,6 +32,7 @@ Expose these workflow labels to the user agent as the canonical entrypoints:
 - `ambra:add-source` - register or extend a material source plugin
 - `ambra:search` - search an existing source and ingest results
 - `ambra:import` - manually import local files and ingest them
+- `ambra:add` - add content (URL, search keyword, or raw text) to the manual source and run the full pipeline
 - `ambra:run` - run the full DIKW pipeline now
 - `ambra:dream` - reorganize and deepen the vault from a global perspective
 
@@ -78,6 +79,7 @@ Keep context lean:
 | `ambra:add-source` | `references/preflight.md`, `references/add-source.md`, then `AGENTS.md` plus relevant layer `AGENTS.md` files if new material is ingested |
 | `ambra:search` | `references/preflight.md`, `references/search-existing-source.md`, then `AGENTS.md` plus relevant layer `AGENTS.md` files |
 | `ambra:import` | `references/preflight.md`, `references/import-files.md`, then `AGENTS.md` plus relevant layer `AGENTS.md` files |
+| `ambra:add` | `references/preflight.md`, `references/add-manual.md`, then `material/manual/AGENTS.md` plus relevant layer `AGENTS.md` files |
 | `ambra:run` | `references/preflight.md`, `references/run-pipeline.md`, then `AGENTS.md` plus relevant layer `AGENTS.md` files |
 | `ambra:dream` | `references/preflight.md`, `references/dream-vault.md`, then `AGENTS.md` plus relevant layer `AGENTS.md` files |
 
