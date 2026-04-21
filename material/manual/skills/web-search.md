@@ -68,11 +68,14 @@ PYEOF
 
 ### Step 3: filter already-processed URLs
 
-Before passing URLs to the fetch step, check `material/manual/memory.md` to skip URLs whose slugs are already registered:
+Before passing URLs to the fetch step, check `material/manual/memory.md` to skip URLs whose slugs are already registered. Match against the full entry format used in that file:
 
 ```bash
-grep -oP 'fetched_at.*' material/manual/memory.md 2>/dev/null || true
+# Extract slugs already listed under "## Processed files" in memory.md
+grep -oP '^- \K[^\s]+\.md' material/manual/memory.md 2>/dev/null || true
 ```
+
+Compare each candidate result URL's derived slug against this list. Skip any URL whose slug is already present.
 
 ---
 
